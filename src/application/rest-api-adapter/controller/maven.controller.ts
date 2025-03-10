@@ -3,7 +3,7 @@ import { GithubMavenAdapter } from '../../../infrastructure/github-adapter/adapt
 
 @Controller('maven')
 export class MavenController {
-  constructor(private readonly mavenService: GithubMavenAdapter) {}
+  constructor(private readonly githubMavenAdapter: GithubMavenAdapter) {}
 
   @Get('dependencies')
   async getPomDependencies(
@@ -11,6 +11,10 @@ export class MavenController {
     @Query('repo') repo: string,
     @Query('branch') branch?: string,
   ) {
-    return await this.mavenService.fetchPomXml(owner, repo, branch);
+    return await this.githubMavenAdapter.retrieveAllDependenciesFromPom(
+      owner,
+      repo,
+      branch,
+    );
   }
 }

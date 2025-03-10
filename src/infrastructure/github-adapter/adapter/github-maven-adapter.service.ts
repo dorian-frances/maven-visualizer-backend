@@ -8,7 +8,7 @@ import { DependencyDto } from '../dto/dependency-dto.type';
 export class GithubMavenAdapter {
   private readonly octokit = new Octokit();
 
-  async fetchPomXml(
+  async retrieveAllDependenciesFromPom(
     owner: string,
     repo: string,
     branch: string = 'main',
