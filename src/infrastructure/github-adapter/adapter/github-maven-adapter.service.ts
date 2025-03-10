@@ -38,26 +38,13 @@ export class GithubMavenAdapter {
 }
 
 function extractDependencies(pomXml: PomXml): DependencyDto[] {
-  const dependencies: DependencyDto[] = [];
-
-  function traverse(node: DependencyDto | DependencyDto[]) {
-    if (!node || typeof node !== 'object') return;
-
-    if (Array.isArray(node)) {
-      node.forEach(traverse);
-    } else {
-      if ('groupId' in node && 'artifactId' in node) {
-        dependencies.push(node);
-      }
-      Object.values(node).forEach((value) => {
-        if (typeof value === 'object' || Array.isArray(value)) {
-          traverse(value);
-        }
-      });
-    }
+  if (!pomXml?.project?.dependencies?.dependency) {
+    return [];
   }
-  if (pomXml.project?.dependencies?.dependency) {
-    traverse(pomXml.project.dependencies.dependency);
+
+  if (Array.isArray(pomXml.project.dependencies.dependency)) {
+    return pomXml.project.dependencies.dependency;
   }
-  return dependencies;
+
+  return [pomXml.project.dependencies.dependency];
 }
