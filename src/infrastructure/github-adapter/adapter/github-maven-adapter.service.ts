@@ -41,7 +41,7 @@ function extractDependencies(pomXml: PomXml): DependencyDto[] {
   const dependencies: DependencyDto[] = [];
 
   function traverse(node: DependencyDto | DependencyDto[]) {
-    if (!node || typeof node !== 'object') return; // <-- Vérification ajoutée
+    if (!node || typeof node !== 'object') return;
 
     if (Array.isArray(node)) {
       node.forEach(traverse);
