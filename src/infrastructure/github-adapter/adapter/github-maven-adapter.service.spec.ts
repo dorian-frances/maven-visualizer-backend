@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MavenService } from './maven.service';
+import { GithubMavenAdapter } from './github-maven-adapter.service';
 
-describe('MavenService', () => {
-  let service: MavenService;
+describe('GithubMavenAdapter', () => {
+  let service: GithubMavenAdapter;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MavenService],
+      providers: [GithubMavenAdapter],
     }).compile();
 
-    service = module.get<MavenService>(MavenService);
+    service = module.get<GithubMavenAdapter>(GithubMavenAdapter);
   });
 
   it('should be defined', () => {

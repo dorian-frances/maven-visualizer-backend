@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Octokit } from '@octokit/rest';
 import { XMLParser } from 'fast-xml-parser';
-import { PomXml } from './pom-xml.type';
-import { DependencyDto } from './dependency-dto.type';
+import { PomXml } from '../dto/pom-xml.type';
+import { DependencyDto } from '../dto/dependency-dto.type';
 
 @Injectable()
-export class MavenService {
+export class GithubMavenAdapter {
   private readonly octokit = new Octokit();
 
   async fetchPomXml(

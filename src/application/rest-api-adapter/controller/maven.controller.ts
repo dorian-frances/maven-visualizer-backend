@@ -1,9 +1,9 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { MavenService } from './maven.service';
+import { GithubMavenAdapter } from '../../../infrastructure/github-adapter/adapter/github-maven-adapter.service';
 
 @Controller('maven')
 export class MavenController {
-  constructor(private readonly mavenService: MavenService) {}
+  constructor(private readonly mavenService: GithubMavenAdapter) {}
 
   @Get('dependencies')
   async getPomDependencies(
