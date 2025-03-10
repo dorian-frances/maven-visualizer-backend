@@ -1,20 +1,24 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { GithubMavenAdapter } from '../../../infrastructure/github-adapter/adapter/github-maven-adapter.service';
+import { Controller, Get, Inject, Query } from '@nestjs/common';
+import { MavenDependencyFacade } from '../../../domain/port/in/maven-dependency.facade';
+import { MavenDependency } from '../../../domain/model/dependency.type';
+import { VcsType } from '../../../domain/model/vcs.type';
 
 @Controller('maven')
 export class MavenController {
-  constructor(private readonly githubMavenAdapter: GithubMavenAdapter) {}
+  constructor(
+    @Inject('MavenDependencyFacade')
+    private readonly mavenDependencyFacade: MavenDependencyFacade,
+  ) {}
 
   @Get('dependencies')
-  async getPomDependencies(
+  getPomDependencies(
+    @Query('vcs') vcs: VcsType,
     @Query('owner') owner: string,
     @Query('repo') repo: string,
-    @Query('branch') branch?: string,
-  ) {
-    return await this.githubMavenAdapter.retrieveAllDependenciesFromPom(
-      owner,
-      repo,
-      branch,
+    @Query('branch') branch: string,
+  ): Promise<MavenDependency[]> {
+    return Promise.resolve(
+      this.mavenDependencyFacade.getMavenDependency(vcs, owner, repo, branch),
     );
   }
 }

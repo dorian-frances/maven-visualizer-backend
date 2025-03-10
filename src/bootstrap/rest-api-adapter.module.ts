@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MavenController } from '../application/rest-api-adapter/controller/maven.controller';
-import { GithubAdapterModule } from './github-adapter.module';
+import { DomainModule } from './domain.module';
 
 @Module({
-  imports: [GithubAdapterModule],
+  imports: [DomainModule],
   controllers: [MavenController],
 })
 export class RestApiAdapterModule {}

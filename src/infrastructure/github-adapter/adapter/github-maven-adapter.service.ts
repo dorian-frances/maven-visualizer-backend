@@ -3,9 +3,10 @@ import { Octokit } from '@octokit/rest';
 import { XMLParser } from 'fast-xml-parser';
 import { PomXml } from '../dto/pom-xml.type';
 import { DependencyDto } from '../dto/dependency-dto.type';
+import { MavenDependencyPort } from '../../../domain/port/out/maven-dependency-port';
 
 @Injectable()
-export class GithubMavenAdapter {
+export class GithubMavenAdapter implements MavenDependencyPort {
   private readonly octokit = new Octokit();
 
   async retrieveAllDependenciesFromPom(
