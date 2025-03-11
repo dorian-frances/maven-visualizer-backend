@@ -1,5 +1,5 @@
 import { VcsType } from '../../model/vcs.type';
-import { MavenDependency } from '../../model/dependency.type';
+import { MavenDependency } from '../../model/maven-dependency.type';
 
 export interface MavenDependencyFacade {
   getMavenDependency(
@@ -7,5 +7,5 @@ export interface MavenDependencyFacade {
     owner: string,
     repo: string,
     branch: string,
-  ): MavenDependency[];
+  ): Promise<MavenDependency[]>;
 }

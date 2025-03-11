@@ -4,16 +4,17 @@ import { XMLParser } from 'fast-xml-parser';
 import { PomXml } from '../dto/pom-xml.type';
 import { DependencyDto } from '../dto/dependency-dto.type';
 import { MavenDependencyPort } from '../../../domain/port/out/maven-dependency-port';
+import { MavenDependency } from '../../../domain/model/maven-dependency.type';
 
 @Injectable()
 export class GithubMavenAdapter implements MavenDependencyPort {
   private readonly octokit = new Octokit();
 
-  async retrieveAllDependenciesFromPom(
+  async retrieveDependenciesFromGithub(
     owner: string,
     repo: string,
     branch: string = 'main',
-  ): Promise<DependencyDto[]> {
+  ): Promise<MavenDependency[]> {
     try {
       const { data } = await this.octokit.repos.getContent({
         owner,
@@ -30,7 +31,12 @@ export class GithubMavenAdapter implements MavenDependencyPort {
       const parser = new XMLParser({ ignoreAttributes: false });
       const jsonObj: PomXml = parser.parse(pomXml) as PomXml;
 
-      return extractDependencies(jsonObj);
+      const dependencies: DependencyDto[] = extractDependencies(jsonObj);
+      return dependencies.map((dependency) => ({
+        groupId: dependency.groupId,
+        artifactId: dependency.artifactId,
+        version: dependency.version,
+      }));
     } catch (error) {
       console.error('Erreur lors de la récupération du pom.xml:', error);
       throw new Error('Impossible de récupérer le pom.xml');

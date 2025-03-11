@@ -1,3 +1,1 @@
-export enum VcsType {
-  GITHUB,
-}
+export type VcsType = 'GITHUB';
